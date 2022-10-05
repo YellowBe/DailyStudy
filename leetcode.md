@@ -1,3 +1,6 @@
+# 2022.09.14
+## 背包问题
+```
 def test_1_wei_bag_problem():
     weight = [1, 3, 4]
     value = [15, 20, 30]
@@ -14,3 +17,4 @@ def test_1_wei_bag_problem():
     print(dp)
 
 print(test_1_wei_bag_problem())
+```
