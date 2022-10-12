@@ -155,4 +155,5 @@ print(res)
             output = self.dropout(output)
         return F.relu(output+input)
     ```
-  + 
+## HRNet
++ https://github.com/HRNet/HRNet-Semantic-Segmentation/tree/HRNet-OCR?v=2
