@@ -127,3 +127,32 @@ print(res)
 #### how the nn.sequential call every layer of one module?
 + https://blog.csdn.net/dss_dssssd/article/details/82977170
 
+# 2022.10.11
+### maxpooling 及其作用
+1. invariance(不变性)，这种不变性包括translation(平移)，rotation(旋转)，scale(尺度)
+2. 保留主要的特征同时减少参数(降维，效果类似PCA)和计算量，防止过拟合，提高模型泛化能力
+#### 平移不变性
+
+# 2022.10.12
+## 更直观的理解就是，Encoder负责将一张图片的每个像素点，通过复杂的计算过程，映射到某一个高维分布上，而Decoder则是负责将这个高维分布，映射到给定的类别区域。中间的高维分布，是我们不可见的，但神经网络却可以很好的使用它。正是这种借助中间的高维分布的思想，搭建起来了原图像到像素级分类图像的桥梁，实现了end-to-end的训练过程。
+
+## ERFNet https://blog.csdn.net/baidu_23388287/article/details/102911321
+### 1.开始先减少图片的size，减少冗余，并使用残差block来减小网络尺寸
+### 模型沿用了Encoder-Decoder的结构
++ non_bottleneck 借鉴了resblock
+  + ```         output = self.conv3x1_1(input)
+        output = F.relu(output)
+        output = self.conv1x3_1(output)
+        output = self.bn1(output)
+        output = F.relu(output)
+
+        output = self.conv3x1_2(output)
+        output = F.relu(output)
+        output = self.conv1x3_2(output)
+        output = self.bn2(output)
+
+        if (self.dropout.p != 0):
+            output = self.dropout(output)
+        return F.relu(output+input)
+    ```
+  + 
