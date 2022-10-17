@@ -157,3 +157,4 @@ print(res)
     ```
 ## HRNet
 + https://github.com/HRNet/HRNet-Semantic-Segmentation/tree/HRNet-OCR?v=2
++ paper: https://arxiv.org/pdf/1909.11065v6.pdf
