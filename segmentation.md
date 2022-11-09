@@ -21,7 +21,8 @@
 # 10.19
 ## How transformer works and what kind of situation it works
 
-# 11.1
+# 11.1/11.10
 ## Segformer
 + Unlike ViT that can only generate a single-resolution feature map, the goal of this module is, given an input image, to generate CNN-like multi-level features.
   + 与只能生成单分辨率特征图的ViT不同，该模块的目标是，给定一个输入图像，生成类似cnn的多级特征。
+### Read the code
