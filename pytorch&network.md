@@ -100,3 +100,6 @@ https://blog.csdn.net/a1367666195/article/details/105600709
   + 将输入数据input的第dim0维和dim1维进行交换
 + torch.flatten()
   + 其作用是将输入tensor的第start_dim维到end_dim维之间的数据“拉平”成一维tensor
+
+### Droppath
++ DropPath 类似于Dropout，不同的是 Drop将深度学习模型中的多分支结构随机 “失效” 而Dropout 是对神经元随机 “失效”
