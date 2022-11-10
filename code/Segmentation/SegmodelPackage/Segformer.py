@@ -265,11 +265,14 @@ class OverlapPatchEmbed(nn.Module):
                 m.bias.data.zero_()
 
     def forward(self, x):
+        print('------------------this time--------------------')
+        print(x.shape)
         x = self.proj(x)
+        print('------------------next time--------------------')
+        print(x.shape)
         _, _, H, W = x.shape
         x = x.flatten(2).transpose(1, 2)
         x = self.norm(x)
-
         return x, H, W
 
 
@@ -355,8 +358,14 @@ class MixVisionTransformer(nn.Module):
 
         # stage 1
         x, H, W = self.patch_embed1(x)
+        print('--------------patch_embed1----------------')
+        print(x.shape)
         for i, blk in enumerate(self.block1):
             x = blk(x, H, W)
+            print('---------blk-----------')
+            print(x.shape)
+        print('--------------final block----------------')
+        print(x.shape)
         x = self.norm1(x)
         x = x.reshape(B, H, W, -1).permute(0, 3, 1, 2).contiguous()
         outs.append(x)
