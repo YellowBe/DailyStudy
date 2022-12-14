@@ -167,9 +167,11 @@ class Attention(nn.Module):
                 m.bias.data.zero_()
 
     def forward(self, x, H, W):
+        print('---------------self-att start--------------')
         B, N, C = x.shape
+        print('B=%s,N=%s,C=%s' % (B,N,C))
         q = self.q(x).reshape(B, N, self.num_heads, C // self.num_heads).permute(0, 2, 1, 3)
-
+        print(q.shape)
         if self.sr_ratio > 1:
             x_ = x.permute(0, 2, 1).reshape(B, C, H, W)
             x_ = self.sr(x_).reshape(B, C, -1).permute(0, 2, 1)
@@ -178,7 +180,8 @@ class Attention(nn.Module):
         else:
             kv = self.kv(x).reshape(B, -1, 2, self.num_heads, C // self.num_heads).permute(2, 0, 3, 1, 4)
         k, v = kv[0], kv[1]
-
+        print(k.shape)
+        print(v.shape)
         attn = (q @ k.transpose(-2, -1)) * self.scale
         attn = attn.softmax(dim=-1)
         attn = self.attn_drop(attn)
@@ -186,7 +189,7 @@ class Attention(nn.Module):
         x = (attn @ v).transpose(1, 2).reshape(B, N, C)
         x = self.proj(x)
         x = self.proj_drop(x)
-
+        print('---------------self-att end--------------')
         return x
 
 
@@ -224,6 +227,7 @@ class Block(nn.Module):
                 m.bias.data.zero_()
 
     def forward(self, x, H, W):
+        print('-----block start-----')
         x = x + self.drop_path(self.attn(self.norm1(x), H, W))
         x = x + self.drop_path(self.mlp(self.norm2(x), H, W))
 
@@ -361,39 +365,44 @@ class MixVisionTransformer(nn.Module):
         print('--------------patch_embed1----------------')
         print(x.shape)
         for i, blk in enumerate(self.block1):
+            print('=============stage1 block' + str(i) + ' started=============')
             x = blk(x, H, W)
-            print('---------blk-----------')
-            print(x.shape)
-        print('--------------final block----------------')
-        print(x.shape)
+            print('=============stage1 block' + str(i) + ' finished=============')
         x = self.norm1(x)
         x = x.reshape(B, H, W, -1).permute(0, 3, 1, 2).contiguous()
         outs.append(x)
-
+        print('=============stage1 finished=============')
         # stage 2
         x, H, W = self.patch_embed2(x)
         for i, blk in enumerate(self.block2):
+            print('=============stage2 block' + str(i) + ' started=============')
             x = blk(x, H, W)
+            print('=============stage2 block' + str(i) + ' finished=============')
         x = self.norm2(x)
         x = x.reshape(B, H, W, -1).permute(0, 3, 1, 2).contiguous()
         outs.append(x)
-
+        print('=============stage2 finished=============')
         # stage 3
         x, H, W = self.patch_embed3(x)
         for i, blk in enumerate(self.block3):
+            print('=============stage3 block' + str(i) + ' started=============')
             x = blk(x, H, W)
+            print('=============stage3 block' + str(i) + ' finished=============')
         x = self.norm3(x)
         x = x.reshape(B, H, W, -1).permute(0, 3, 1, 2).contiguous()
         outs.append(x)
+        print('=============stage3 finished=============')
 
         # stage 4
         x, H, W = self.patch_embed4(x)
         for i, blk in enumerate(self.block4):
+            print('=============stage4 block' + str(i) + ' started=============')
             x = blk(x, H, W)
+            print('=============stage4 block' + str(i) + ' finished=============')
         x = self.norm4(x)
         x = x.reshape(B, H, W, -1).permute(0, 3, 1, 2).contiguous()
         outs.append(x)
-
+        print('=============stage4 finished=============')
         return outs
 
     def forward(self, x):

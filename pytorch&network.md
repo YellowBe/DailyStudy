@@ -103,3 +103,8 @@ https://blog.csdn.net/a1367666195/article/details/105600709
 
 ### Droppath
 + DropPath 类似于Dropout，不同的是 Drop将深度学习模型中的多分支结构随机 “失效” 而Dropout 是对神经元随机 “失效”
+
+# 2022.11.15
+### python中的@
++ https://www.zhihu.com/question/36223283
++ 在python 3.5以后，@是一个操作符，表示矩阵-向量乘法, A@x 就是矩阵-向量乘法A*x: np.dot(A, x)
