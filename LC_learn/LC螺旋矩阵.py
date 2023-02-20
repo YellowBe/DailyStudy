@@ -24,6 +24,9 @@ class Solution:
         if n % 2 != 0 :			# n为奇数时，填充中心点
             nums[mid][mid] = count 
         return nums
+
+
+
 if __name__ == "__main__":
     result = Solution()
     ans = result.generateMatrix(4)
