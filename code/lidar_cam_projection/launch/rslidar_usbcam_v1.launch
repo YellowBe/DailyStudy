@@ -1,0 +1,42 @@
+<launch>
+
+
+    <node pkg="lidar_cam_projection" type="lidar_projection_node" name="lidar_cam_fusion" output="screen" required="true">
+        <rosparam param="lidar_to_cam_extrinsic_mat"> 
+        [7.671987157338411301e-03, -9.999704625971905791e-01, -4.631913413258859080e-04, 1.522593101275518564e-02,
+        2.958423300492940555e-02, 6.899787237559795727e-04, -9.995620526444923826e-01, 3.840039838516234177e-02,
+        9.995328477696808767e-01, 7.654924070283619653e-03, 2.958865267142996025e-02, -3.900169224954055242e-02,
+        0.000000000000000000e+00, 0.000000000000000000e+00, 0.000000000000000000e+00, 1.000000000000000000e+00] 
+        </rosparam>
+        <!-- <rosparam param="cam_to_lidar_extrinsic_mat"> [-1.855274592791e-02, 1.010910142346e-01, 9.947041783664e-01, -9.998265160730e-01, -3.520939366522e-03, -1.829045498024e-02, 1.653292454889e-03, -9.948709513434e-01, 1.011387996620e-01,2.149434590220e-02,4.908860672170e-02, -9.903645283305e-02] </rosparam> -->
+        <!-- <rosparam param="intrinsic_K_mat"> [3.507833068601e+02, 0.000000000000e+00, 3.454384750906e+02, 0.000000000000e+00, 3.508783430712e+02, 1.668714311752e+02, 0.000000000000e+00, 0.000000000000e+00, 1.000000000000e+00] </rosparam> -->
+        <rosparam param="intrinsic_K_mat"> [503.9118983001055, 0, 671.2958449975808, 0, 501.51746060696, 360.3375255194335, 0, 0, 1]
+        </rosparam>
+        <rosparam param="distort_coeffs"> [-0.01685027548055526, -0.02370727310509031, 0.0006342716911730475, -0.002358264692816827, 0] </rosparam>
+
+        <param name="horizontal_offset" type="int" value="40"/>
+        <param name="lidar_max_range" type="double" value="70"/>
+        <param name="lidar_min_range" type="double" value="0.6"/>
+        <param name="is_use_cam_info" type="bool" value="false"/>
+        <param name="is_show_projection" type="bool" value="true"/>
+        <param name="image_width" type="int" value="1280"/>
+        <param name="image_height" type="int" value="720"/>
+        <param name="publish_to" type="string" value="/color_point_cloud"/>
+        <param name="cloud_topic" type="string" value="/rslidar_velo_points"/>
+        <!-- <param name="cloud_topic" type="string" value="/velodyne_points"/> -->
+
+        <param name="image_topic" type="string" value="/usb_cam/image_raw"/>
+    </node>
+
+    <node pkg="rviz" type="rviz" name="rviz" output="screen" required="false" args="-d $(find lidar_cam_projection)/rviz/rslidar.rviz">
+    </node>
+
+    <node pkg="rs_to_velodyne" type="rs_to_velodyne" name="rs_to_velodyne" output="screen" required="true" args="XYZI XYZI">
+    </node>
+
+    <!-- <node name="rqt_gui" pkg="rqt_gui" type="rqt_gui"></node> -->
+
+    <node name="republish" type="republish" pkg="image_transport" output="screen" args="compressed in:=/usb_cam/image_raw raw out:=/usb_cam/image_raw" />
+
+    <!-- <include file="$(find point_cloud_transport)/launch/tools.launch" /> -->
+</launch>

@@ -1,0 +1,7 @@
+<launch>
+
+
+    <node pkg="lidar_cam_projection" type="lidar_projection_node" name="lidar_cam_fusion" output="screen" required="true">
+
+    </node>
+</launch>
