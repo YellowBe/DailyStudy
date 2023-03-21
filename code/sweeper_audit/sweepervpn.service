@@ -1,0 +1,11 @@
+[Unit]
+Description=Example systemd service.
+After=remote-fs.target
+After=syslog.target
+[Service]
+WorkingDirectory=/home/ntujetson
+User=ntujetson
+ExecStart=bash -c "sudo openvpn --config /home/ntujetson/OpenVPN-Config_latest.ovpn"
+
+[Install]
+WantedBy=multi-user.target

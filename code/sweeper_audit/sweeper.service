@@ -1,0 +1,11 @@
+[Unit]
+Description=Example systemd service.
+After=remote-fs.target
+After=syslog.target
+[Service]
+WorkingDirectory=/home/ntujetson
+User=ntujetson
+ExecStart=/home/ntujetson/sweeper_audit/jetson.sh 
+
+[Install]
+WantedBy=multi-user.target

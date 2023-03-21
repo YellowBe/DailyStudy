@@ -1,0 +1,11 @@
+setuptools
+opencv-contrib-python
+numpy
+pillow
+pandas
+rospkg
+geopy
+pyserial
+paramiko
+pymysql
+matplotlib
